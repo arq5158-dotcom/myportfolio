@@ -284,6 +284,30 @@ export default function AdminPage() {
     });
   };
 
+  // --- Education CRUD Helpers ---
+  const handleAddEducation = () => {
+    if (!content) return;
+    const newEdu: Education = {
+      id: `edu-${Date.now()}`,
+      degree: 'High School / College / Degree',
+      institution: 'Institution / College / School',
+      period: 'Year - Year',
+      gpa: '',
+    };
+    setContent({
+      ...content,
+      education: [...content.education, newEdu],
+    });
+  };
+
+  const deleteEducation = (index: number) => {
+    if (!content) return;
+    setContent({
+      ...content,
+      education: content.education.filter((_, i) => i !== index),
+    });
+  };
+
   // --- Certifications CRUD Helpers ---
   const handleAddCertification = () => {
     if (!content) return;
@@ -951,14 +975,40 @@ export default function AdminPage() {
 
                 {/* Education List */}
                 <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/[0.08] space-y-6">
-                  <h3 className="text-xl font-display font-bold text-white">Academic Qualifications</h3>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-xl font-display font-bold text-white">Academic Qualifications & Education</h3>
+                      <p className="text-xs font-mono text-slate-400 mt-1">
+                        Add university degrees, college, and school education milestones.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleAddEducation}
+                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-light text-darker font-mono text-xs font-bold uppercase transition-all shadow-md shadow-primary/20"
+                    >
+                      <FiPlus className="w-3.5 h-3.5" />
+                      <span>Add Education</span>
+                    </button>
+                  </div>
+
                   <div className="space-y-4">
                     {content.education.map((edu, idx) => (
-                      <div key={edu.id || idx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] grid grid-cols-1 sm:grid-cols-4 gap-4">
+                      <div key={edu.id || idx} className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-4 relative">
+                        <button
+                          type="button"
+                          onClick={() => deleteEducation(idx)}
+                          className="absolute top-4 right-4 text-slate-500 hover:text-red-400 transition-colors"
+                          title="Remove Education"
+                        >
+                          <FiTrash2 className="w-4 h-4" />
+                        </button>
+                        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 pr-8">
                         <div>
-                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Degree</label>
+                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Degree / Qualification</label>
                           <input
                             type="text"
+                            placeholder="e.g. BS AI, College, High School"
                             value={edu.degree}
                             onChange={(e) => {
                               const list = [...content.education];
@@ -969,9 +1019,10 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Institution</label>
+                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Institution / School / College</label>
                           <input
                             type="text"
+                            placeholder="e.g. University / College Name"
                             value={edu.institution}
                             onChange={(e) => {
                               const list = [...content.education];
@@ -982,9 +1033,10 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Period</label>
+                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">Period / Years</label>
                           <input
                             type="text"
+                            placeholder="e.g. 2021 - 2025"
                             value={edu.period}
                             onChange={(e) => {
                               const list = [...content.education];
@@ -995,9 +1047,10 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">GPA / Honors</label>
+                          <label className="text-[10px] font-mono text-slate-400 block mb-1 uppercase">GPA / Grade / Honors</label>
                           <input
                             type="text"
+                            placeholder="e.g. 3.65/4.0 or Grade A"
                             value={edu.gpa || ''}
                             onChange={(e) => {
                               const list = [...content.education];
@@ -1006,6 +1059,7 @@ export default function AdminPage() {
                             }}
                             className="w-full px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-sm text-white font-mono"
                           />
+                        </div>
                         </div>
                       </div>
                     ))}
