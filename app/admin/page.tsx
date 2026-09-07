@@ -51,6 +51,12 @@ export default function AdminPage() {
   const [pwChange, setPwChange] = useState({ current: '', next: '', confirm: '' });
   const [pwMessage, setPwMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+  // Password Visibility States (Eye toggle)
+  const [showLoginPw, setShowLoginPw] = useState(false);
+  const [showCurrentPw, setShowCurrentPw] = useState(false);
+  const [showNextPw, setShowNextPw] = useState(false);
+  const [showConfirmPw, setShowConfirmPw] = useState(false);
+
   const getAdminPassword = () => localStorage.getItem('admin_auth_pwd') || 'admin123';
 
   // Check existing session token on mount
@@ -144,8 +150,18 @@ export default function AdminPage() {
     e.preventDefault();
     setPwMessage(null);
 
+    if (!pwChange.current) {
+      setPwMessage({ type: 'error', text: 'Please enter your current password' });
+      return;
+    }
+
     if (pwChange.next !== pwChange.confirm) {
       setPwMessage({ type: 'error', text: 'New passwords do not match' });
+      return;
+    }
+
+    if (pwChange.next.trim().length < 4) {
+      setPwMessage({ type: 'error', text: 'New password must be at least 4 characters long' });
       return;
     }
 
@@ -154,13 +170,13 @@ export default function AdminPage() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          currentPassword: pwChange.current,
-          newPassword: pwChange.next,
+          currentPassword: pwChange.current.trim(),
+          newPassword: pwChange.next.trim(),
         }),
       });
       const data = await res.json();
       if (data.success) {
-        localStorage.setItem('admin_auth_pwd', pwChange.next);
+        localStorage.setItem('admin_auth_pwd', pwChange.next.trim());
         setPwMessage({ type: 'success', text: 'Master password updated successfully!' });
         setPwChange({ current: '', next: '', confirm: '' });
       } else {
@@ -333,15 +349,26 @@ export default function AdminPage() {
               <label className="text-xs font-mono text-slate-400 block mb-2 uppercase tracking-wider">
                 Master Passkey
               </label>
-              <input
-                type="password"
-                required
-                autoFocus
-                placeholder="Enter admin password (default: admin123)"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary font-mono transition-colors"
-              />
+              <div className="relative">
+                <input
+                  type={showLoginPw ? 'text' : 'password'}
+                  required
+                  autoFocus
+                  placeholder="Enter admin password (default: admin123)"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  className="w-full pl-4 pr-11 py-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary font-mono transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowLoginPw(!showLoginPw)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors p-1"
+                  title={showLoginPw ? 'Hide passkey' : 'Show passkey'}
+                  aria-label={showLoginPw ? 'Hide passkey' : 'Show passkey'}
+                >
+                  {showLoginPw ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             {authError && (
@@ -1170,33 +1197,69 @@ export default function AdminPage() {
                   <form onSubmit={handlePasswordChange} className="space-y-4">
                     <div>
                       <label className="text-xs font-mono text-slate-400 block mb-1 uppercase">Current Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={pwChange.current}
-                        onChange={(e) => setPwChange({ ...pwChange, current: e.target.value })}
-                        className="w-full px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white font-mono"
-                      />
+                      <div className="relative">
+                        <input
+                          type={showCurrentPw ? 'text' : 'password'}
+                          required
+                          placeholder="Enter your current password"
+                          value={pwChange.current}
+                          onChange={(e) => setPwChange({ ...pwChange, current: e.target.value })}
+                          className="w-full pl-4 pr-11 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white font-mono focus:outline-none focus:border-primary"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowCurrentPw(!showCurrentPw)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors p-1"
+                          title={showCurrentPw ? 'Hide password' : 'Show password'}
+                          aria-label={showCurrentPw ? 'Hide password' : 'Show password'}
+                        >
+                          {showCurrentPw ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                        </button>
+                      </div>
                     </div>
                     <div>
                       <label className="text-xs font-mono text-slate-400 block mb-1 uppercase">New Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={pwChange.next}
-                        onChange={(e) => setPwChange({ ...pwChange, next: e.target.value })}
-                        className="w-full px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white font-mono"
-                      />
+                      <div className="relative">
+                        <input
+                          type={showNextPw ? 'text' : 'password'}
+                          required
+                          placeholder="At least 4 characters"
+                          value={pwChange.next}
+                          onChange={(e) => setPwChange({ ...pwChange, next: e.target.value })}
+                          className="w-full pl-4 pr-11 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white font-mono focus:outline-none focus:border-primary"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNextPw(!showNextPw)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors p-1"
+                          title={showNextPw ? 'Hide password' : 'Show password'}
+                          aria-label={showNextPw ? 'Hide password' : 'Show password'}
+                        >
+                          {showNextPw ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                        </button>
+                      </div>
                     </div>
                     <div>
                       <label className="text-xs font-mono text-slate-400 block mb-1 uppercase">Confirm New Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={pwChange.confirm}
-                        onChange={(e) => setPwChange({ ...pwChange, confirm: e.target.value })}
-                        className="w-full px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white font-mono"
-                      />
+                      <div className="relative">
+                        <input
+                          type={showConfirmPw ? 'text' : 'password'}
+                          required
+                          placeholder="Re-type new password"
+                          value={pwChange.confirm}
+                          onChange={(e) => setPwChange({ ...pwChange, confirm: e.target.value })}
+                          className="w-full pl-4 pr-11 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white font-mono focus:outline-none focus:border-primary"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPw(!showConfirmPw)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors p-1"
+                          title={showConfirmPw ? 'Hide password' : 'Show password'}
+                          aria-label={showConfirmPw ? 'Hide password' : 'Show password'}
+                        >
+                          {showConfirmPw ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                        </button>
+                      </div>
                     </div>
 
                     {pwMessage && (

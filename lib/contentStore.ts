@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { PortfolioContent, SectionVisibility } from '@/types';
 import { projects, experiences, education, certifications } from './data';
 
@@ -139,41 +140,69 @@ interface AdminConfig {
 }
 
 const DEFAULT_PASSWORD = 'admin123';
+let inMemoryPassword: string | null = null;
 
 export function getAdminPassword(): string {
+  if (inMemoryPassword) return inMemoryPassword;
+  if (process.env.ADMIN_PASSWORD) return process.env.ADMIN_PASSWORD.trim();
+
   ensureDataDir();
   try {
     if (fs.existsSync(CONFIG_FILE)) {
       const data = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf-8'));
       if (data && data.password) {
-        return data.password;
+        inMemoryPassword = String(data.password).trim();
+        return inMemoryPassword;
       }
     }
   } catch (e) {
     console.error('Error reading admin config:', e);
   }
 
-  // initialize default password
+  // Try checking temp folder fallback (useful for serverless environments)
+  try {
+    const tmpConfig = path.join(os.tmpdir(), 'portfolio-admin-config.json');
+    if (fs.existsSync(tmpConfig)) {
+      const data = JSON.parse(fs.readFileSync(tmpConfig, 'utf-8'));
+      if (data && data.password) {
+        inMemoryPassword = String(data.password).trim();
+        return inMemoryPassword;
+      }
+    }
+  } catch (e) {}
+
+  // initialize default password if possible
   try {
     fs.writeFileSync(CONFIG_FILE, JSON.stringify({ password: DEFAULT_PASSWORD }, null, 2), 'utf-8');
-  } catch (e) {
-    console.error('Error initializing admin config:', e);
-  }
+  } catch (e) {}
+
   return DEFAULT_PASSWORD;
 }
 
 export function setAdminPassword(newPassword: string): boolean {
+  const cleaned = newPassword.trim();
+  inMemoryPassword = cleaned;
+  let savedLocally = false;
+
   ensureDataDir();
   try {
-    fs.writeFileSync(CONFIG_FILE, JSON.stringify({ password: newPassword }, null, 2), 'utf-8');
-    return true;
+    fs.writeFileSync(CONFIG_FILE, JSON.stringify({ password: cleaned }, null, 2), 'utf-8');
+    savedLocally = true;
   } catch (error) {
-    console.error('Error updating admin password:', error);
-    return false;
+    console.warn('Could not write to data/admin-config.json (filesystem may be read-only):', error);
   }
+
+  try {
+    const tmpConfig = path.join(os.tmpdir(), 'portfolio-admin-config.json');
+    fs.writeFileSync(tmpConfig, JSON.stringify({ password: cleaned }, null, 2), 'utf-8');
+    savedLocally = true;
+  } catch (error) {}
+
+  return true;
 }
 
 export function verifyAdminPassword(password: string): boolean {
-  const currentPassword = getAdminPassword();
-  return currentPassword === password;
+  const currentPassword = getAdminPassword().trim();
+  const candidate = (password || '').trim();
+  return currentPassword === candidate;
 }

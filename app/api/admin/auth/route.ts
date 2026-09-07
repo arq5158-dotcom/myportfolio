@@ -52,7 +52,7 @@ export async function PUT(request: Request) {
 
     if (!verifyAdminPassword(currentPassword)) {
       return NextResponse.json(
-        { success: false, error: 'Current password is incorrect' },
+        { success: false, error: 'Current password is incorrect. Please check the entered password.' },
         { status: 401 }
       );
     }
