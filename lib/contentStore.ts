@@ -97,42 +97,81 @@ export const defaultPortfolioContent: PortfolioContent = {
 };
 
 function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+  } catch (err) {}
 }
 
+let inMemoryContent: PortfolioContent | null = null;
+
 export function getPortfolioContent(): PortfolioContent {
-  ensureDataDir();
+  if (inMemoryContent) {
+    return inMemoryContent;
+  }
+
+  // Try checking temp directory fallback (writable in serverless environments like Vercel)
   try {
-    if (fs.existsSync(CONTENT_FILE)) {
-      const rawData = fs.readFileSync(CONTENT_FILE, 'utf-8');
+    const tmpContentFile = path.join(os.tmpdir(), 'portfolio-content.json');
+    if (fs.existsSync(tmpContentFile)) {
+      const rawData = fs.readFileSync(tmpContentFile, 'utf-8');
       const parsed = JSON.parse(rawData);
-      return {
+      const contentFromTmp: PortfolioContent = {
         ...defaultPortfolioContent,
         ...parsed,
         hero: { ...defaultPortfolioContent.hero, ...parsed.hero },
         sectionVisibility: getSectionVisibility(parsed),
       };
+      inMemoryContent = contentFromTmp;
+      return contentFromTmp;
+    }
+  } catch (e) {}
+
+  ensureDataDir();
+  try {
+    if (fs.existsSync(CONTENT_FILE)) {
+      const rawData = fs.readFileSync(CONTENT_FILE, 'utf-8');
+      const parsed = JSON.parse(rawData);
+      const contentFromFile: PortfolioContent = {
+        ...defaultPortfolioContent,
+        ...parsed,
+        hero: { ...defaultPortfolioContent.hero, ...parsed.hero },
+        sectionVisibility: getSectionVisibility(parsed),
+      };
+      inMemoryContent = contentFromFile;
+      return contentFromFile;
     }
   } catch (error) {
     console.error('Error reading portfolio content from file, using defaults:', error);
   }
 
-  // Initialize file with defaults if not present
-  savePortfolioContent(defaultPortfolioContent);
   return defaultPortfolioContent;
 }
 
 export function savePortfolioContent(content: PortfolioContent): boolean {
+  inMemoryContent = content;
+  let savedOnDisk = false;
+
   ensureDataDir();
   try {
     fs.writeFileSync(CONTENT_FILE, JSON.stringify(content, null, 2), 'utf-8');
-    return true;
+    savedOnDisk = true;
   } catch (error) {
-    console.error('Error writing portfolio content to file:', error);
-    return false;
+    console.warn('Could not write to data/portfolio-content.json (filesystem may be read-only):', error);
   }
+
+  // In serverless environments (like Vercel Lambda), /tmp is the only writable directory
+  try {
+    const tmpContentFile = path.join(os.tmpdir(), 'portfolio-content.json');
+    fs.writeFileSync(tmpContentFile, JSON.stringify(content, null, 2), 'utf-8');
+    savedOnDisk = true;
+  } catch (error) {
+    console.warn('Could not write to temp directory fallback:', error);
+  }
+
+  // Always succeed because memory state and/or /tmp has been updated
+  return true;
 }
 
 interface AdminConfig {

@@ -41,36 +41,67 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(bytes);
 
     if (isResume && ext === '.pdf') {
-      const publicAssetsDir = path.join(process.cwd(), 'public', 'assets');
-      if (!fs.existsSync(publicAssetsDir)) {
-        fs.mkdirSync(publicAssetsDir, { recursive: true });
+      try {
+        const publicAssetsDir = path.join(process.cwd(), 'public', 'assets');
+        if (!fs.existsSync(publicAssetsDir)) {
+          fs.mkdirSync(publicAssetsDir, { recursive: true });
+        }
+        const resumePath = path.join(publicAssetsDir, 'resume.pdf');
+        fs.writeFileSync(resumePath, buffer);
+        return NextResponse.json({
+          success: true,
+          url: `/assets/resume.pdf?v=${Date.now()}`,
+          filename: 'resume.pdf',
+        });
+      } catch (e) {
+        console.warn('Could not write resume to disk (serverless), using base64 data URL:', e);
+        const dataUrl = `data:application/pdf;base64,${buffer.toString('base64')}`;
+        return NextResponse.json({
+          success: true,
+          url: dataUrl,
+          filename: 'resume.pdf',
+        });
       }
-      const resumePath = path.join(publicAssetsDir, 'resume.pdf');
-      fs.writeFileSync(resumePath, buffer);
+    }
+
+    try {
+      const uploadsDir = path.join(process.cwd(), 'public', 'assets', 'uploads');
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const cleanBase = path.basename(name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+      const uniqueFilename = `${cleanBase}-${Date.now()}${ext}`;
+      const destination = path.join(uploadsDir, uniqueFilename);
+
+      fs.writeFileSync(destination, buffer);
+
+      const publicUrl = `/assets/uploads/${uniqueFilename}`;
       return NextResponse.json({
         success: true,
-        url: `/assets/resume.pdf?v=${Date.now()}`,
-        filename: 'resume.pdf',
+        url: publicUrl,
+        filename: uniqueFilename,
+      });
+    } catch (diskErr) {
+      console.warn('Could not write uploaded file to disk (serverless), falling back to data URL:', diskErr);
+      const mimeTypes: Record<string, string> = {
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.webp': 'image/webp',
+        '.svg': 'image/svg+xml',
+        '.gif': 'image/gif',
+        '.pdf': 'application/pdf',
+        '.avif': 'image/avif',
+      };
+      const mime = mimeTypes[ext] || file.type || 'image/png';
+      const dataUrl = `data:${mime};base64,${buffer.toString('base64')}`;
+      return NextResponse.json({
+        success: true,
+        url: dataUrl,
+        filename: name,
       });
     }
-
-    const uploadsDir = path.join(process.cwd(), 'public', 'assets', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const cleanBase = path.basename(name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-    const uniqueFilename = `${cleanBase}-${Date.now()}${ext}`;
-    const destination = path.join(uploadsDir, uniqueFilename);
-
-    fs.writeFileSync(destination, buffer);
-
-    const publicUrl = `/assets/uploads/${uniqueFilename}`;
-    return NextResponse.json({
-      success: true,
-      url: publicUrl,
-      filename: uniqueFilename,
-    });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
