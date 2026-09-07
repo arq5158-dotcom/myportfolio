@@ -1,0 +1,306 @@
+{
+  "sectionVisibility": {
+    "impactMetrics": true,
+    "projects": true,
+    "journey": true,
+    "certifications": true,
+    "contact": true,
+    "footer": true
+  },
+  "hero": {
+    "name": "ABDUL REHMAN",
+    "title": "AI Engineer",
+    "tagline": "Architecting High-Performance Intelligence & Scalable AI Infrastructure",
+    "bio": "AI Engineer with specialized expertise in Large Language Models, Production RAG Pipelines, Autonomous Systems, and Deep Learning Architectures. Experienced in optimizing inference latency, fine-tuning state-of-the-art models, and delivering mission-critical AI applications.",
+    "status": "Available for AI & ML Engineering Roles",
+    "location": "Islamabad, Pakistan // Global Remote",
+    "aboutTitle": "ABOUT",
+    "aboutSubtitle": "",
+    "aboutText": "Decoding complexity. Building intelligent systems at the intersection of AI, research, and impact.",
+    "aboutScopeTag": "RESEARCH_SCOPE #909090",
+    "neuralPatternsTitle": "NEURAL PATTERNS",
+    "neuralPatternsYear": "2024",
+    "cogVisionTitle": "COG_VISION",
+    "cogVisionYear": "2023",
+    "cogVisionSubtitle": "micro-data",
+    "specialtiesTags": [
+      "Deep Learning",
+      "CV",
+      "NLP",
+      "Robotics"
+    ],
+    "awardsTitle": "AWARDS",
+    "awardsSubtitle": "Gold accents",
+    "awardItem": "Awwwards Site of the Year",
+    "awardBadge": "FWA",
+    "socialLinks": {
+      "github": "https://github.com/crazy-scientistt",
+      "linkedin": "https://linkedin.com/in/abdulrehman-ai",
+      "email": "abdulrehmanqureshi2002@gmail.com",
+      "twitter": "https://x.com/crazy_scientist"
+    },
+    "impactMetrics": [
+      {
+        "id": "metric-1",
+        "value": "100+",
+        "label": "Languages Supported",
+        "description": "Multilingual NexusRAG document intelligence production deployment"
+      },
+      {
+        "id": "metric-2",
+        "value": "85.9%",
+        "label": "Detection Accuracy",
+        "description": "Deepfake analysis benchmark across 53,400+ video frames"
+      },
+      {
+        "id": "metric-3",
+        "value": "60%",
+        "label": "Training Time Reduction",
+        "description": "Optimized neural pipeline via mixed-precision & Colab P100 acceleration"
+      },
+      {
+        "id": "metric-4",
+        "value": "3.65",
+        "label": "Cumulative GPA",
+        "description": "BS in Artificial Intelligence from Bahria University"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "nexusrag",
+      "title": "Multilingual NexusRAG - Real-Time Document Intelligence Supporting 100+ Languages",
+      "description": "Architected and deployed production-grade Retrieval-Augmented Generation (RAG) system with HuggingFace Inference Providers, serving users with real-time document intelligence and conversational AI capabilities. Built with advanced RAG pipeline featuring dual retrieval modes, confidence scoring, source transparency, and automatic document expiration for enhanced security.",
+      "techStack": [
+        "Python",
+        "FastAPI",
+        "HuggingFace",
+        "LangChain",
+        "Firebase",
+        "React",
+        "Vite",
+        "SQLite",
+        "Vector Databases"
+      ],
+      "features": [
+        "Production-grade RAG system supporting 100+ languages",
+        "Dual retrieval modes: strict document-only and hybrid querying",
+        "Confidence scoring with source transparency and chunk previews",
+        "Automatic document expiration for enhanced security",
+        "Firebase Authentication with SQLite session persistence",
+        "Multi-session management with message branching",
+        "Export functionality and comprehensive document panel",
+        "Scalable backend with automated cleanup mechanisms"
+      ],
+      "githubLink": "https://github.com/crazy-scientistt/nexusrag",
+      "screenshots": [
+        "/assets/images/nexusrag-landingpage.png",
+        "/assets/images/nexusrag-features.png",
+        "/assets/images/nexusrag-authentication.png",
+        "/assets/images/nexusrag-workplace1.png",
+        "/assets/images/nexusrag-workplace2.png",
+        "/assets/images/nexusrag-workplace3.png"
+      ],
+      "thumbnail": "/assets/images/nexusrag-landingpage.png",
+      "tags": [
+        "RAG",
+        "HuggingFace",
+        "LangChain",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "deepdeception",
+      "title": "DeepDeception - AI Deepfake Detection System",
+      "description": "Engineered production-ready deepfake detection system achieving 85.9% accuracy across 53,400+ video frames using XceptionNet architecture. Built scalable Django REST API supporting 100+ concurrent users with consistent high availability on cloud infrastructure.",
+      "techStack": [
+        "Python",
+        "XceptionNet",
+        "TensorFlow",
+        "OpenCV",
+        "Django",
+        "Railway",
+        "SQL",
+        "HTML/CSS",
+        "JavaScript"
+      ],
+      "features": [
+        "Deepfake detection with 85.9% accuracy across 53,400+ video frames",
+        "Advanced XceptionNet architecture for facial analysis",
+        "Scalable Django REST API supporting 100+ concurrent users",
+        "GPU acceleration on Google Colab P100 instances",
+        "60% reduction in training time through pipeline optimization",
+        "User-friendly web interface with drag-and-drop functionality",
+        "Detailed confidence scoring and comprehensive reporting",
+        "Cloud deployment on Railway platform with high availability"
+      ],
+      "githubLink": "https://github.com/uwdhuwhduwg/deepfakeDetection",
+      "screenshots": [
+        "/assets/images/landing page.png",
+        "/assets/images/result page 1.png",
+        "/assets/images/result page 2.png",
+        "/assets/images/result page 3.png",
+        "/assets/images/result page 4.png"
+      ],
+      "thumbnail": "/assets/images/landing page.png",
+      "tags": [
+        "XceptionNet",
+        "TensorFlow",
+        "Django",
+        "OpenCV"
+      ]
+    },
+    {
+      "id": "smartchat",
+      "title": "SmartChat AI - LLM-Powered Conversational Assistant",
+      "description": "Fine-tuned Llama 3.2 7B model with custom prompt engineering strategies for domain-specific conversational applications. Integrated Firebase Authentication and real-time database with advanced NLP techniques for enhanced user experience.",
+      "techStack": [
+        "Python",
+        "Llama 3.2 (7B)",
+        "Unsloth AI",
+        "Firebase",
+        "React",
+        "Natural Language Processing"
+      ],
+      "features": [
+        "Fine-tuned Llama 3.2 7B model for domain-specific conversations",
+        "Custom prompt engineering strategies for optimal performance",
+        "Firebase Authentication and real-time database integration",
+        "Sentiment analysis and context-aware response generation",
+        "92% user satisfaction score through iterative optimization",
+        "Advanced NLP techniques for natural conversations",
+        "Continuous model refinement based on user feedback",
+        "Scalable architecture for production deployment"
+      ],
+      "githubLink": "https://github.com/crazy-scientistt/smartchat-ai",
+      "screenshots": [
+        "/assets/images/smartchat-demo.svg"
+      ],
+      "thumbnail": "/assets/images/smartchat-demo.svg",
+      "tags": [
+        "Llama",
+        "NLP",
+        "Firebase",
+        "LLM"
+      ]
+    },
+    {
+      "id": "unity-fps",
+      "title": "Maze of Fury – Unity FPS with AI Enemies",
+      "description": "\"Maze of Fury\" stands as a testament to the intersection of advanced game design principles, captivating narrative elements, and cutting-edge artificial intelligence implementations within the Unity 3D environment. Drawing inspiration from the adrenaline-fueled action of the Maze Runner movie franchise, this project aims to immerse players in a heart-pounding first-person shooting experience set within a labyrinthine maze.",
+      "techStack": [
+        "Python",
+        "Unity 3D",
+        "Keras",
+        "C#",
+        "NavMesh AI",
+        "Game Development"
+      ],
+      "features": [
+        "Three distinct levels with varying degrees of complexity",
+        "Responsive and challenging enemy AI behavior",
+        "Fluid and responsive movement controls for precision navigation",
+        "Heart-pounding combat encounters with vampire enemies",
+        "Dynamic health system requiring strategic decision-making",
+        "Strategic cookie collection objectives throughout the maze",
+        "Optimized performance for smooth gameplay",
+        "Immersive visuals and atmospheric effects"
+      ],
+      "githubLink": "https://github.com/crazy-scientistt/maze-of-fury",
+      "screenshots": [
+        "/assets/images/unitygame.png",
+        "/assets/images/maze2.png",
+        "/assets/images/maze3.png",
+        "/assets/images/maze4.png",
+        "/assets/images/maze5.png",
+        "/assets/images/maze6.png"
+      ],
+      "thumbnail": "/assets/images/unitygame.png",
+      "tags": [
+        "Unity 3D",
+        "C#",
+        "NavMesh AI",
+        "Game Dev"
+      ]
+    },
+    {
+      "id": "self-driving",
+      "title": "Self-Driving Car Simulation",
+      "description": "An autonomous vehicle simulation system built using CNN-based computer vision and behavioral cloning techniques. The simulator replicates what NVIDIA did in the simulation, allowing us to collect all our data from the simulator. The simulator has two modes: Training mode for data collection and Autonomous mode for testing the model.",
+      "techStack": [
+        "Python",
+        "Unity 3D",
+        "Keras",
+        "Anaconda",
+        "OpenCV",
+        "CNN",
+        "Behavioral Cloning"
+      ],
+      "features": [
+        "CNN-based vision system for road analysis",
+        "Behavioral cloning from human driving data",
+        "Real-time steering angle prediction and speed control",
+        "Integration with Unity-based Udacity simulator",
+        "Two distinct tracks: Lake track and Jungle track",
+        "Training mode for data collection and autonomous mode for testing",
+        "Robust performance in various simulated road conditions",
+        "Comprehensive training pipeline with frame capture and analysis"
+      ],
+      "githubLink": "https://github.com/crazy-scientistt/self-driving-car",
+      "screenshots": [
+        "/assets/images/car1.png",
+        "/assets/images/car2.png",
+        "/assets/images/car3.png"
+      ],
+      "thumbnail": "/assets/images/car1.png",
+      "tags": [
+        "Python",
+        "Keras",
+        "CNN",
+        "OpenCV"
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "id": "exp-1788730600332",
+      "title": "Ai Automation Engineer",
+      "company": "Electrific",
+      "period": "Dec 2025 - September 2026",
+      "description": "I engineered an end-to-end autonomous email sales agent using n8n and Notion AI that converts raw inbound buyer inquiries into completed transactions with zero manual intervention. Built on an event-driven n8n workflow, the system connects directly to a Notion-managed product and inventory database, leveraging Notion AI to parse complex customer requests, intelligently match SKUs, and dynamically generate accurate, itemized quotes. It handles conversational email negotiations autonomously, instantly provisions secure, pre-filled checkout payment links, and synchronizes transaction statuses back to the core database cutting lead-to-payment turnaround from hours to seconds."
+    },
+    {
+      "id": "exp-1",
+      "title": "AI Software Development Intern",
+      "company": "Buzzware Tech",
+      "period": "July 2024 - September 2024",
+      "description": "Engineered scalable ML and LLM inference pipelines, reducing end-to-end model latency by 20% through TensorFlow optimization, mixed-precision training, and GPU acceleration strategies. Contributed to early-stage Retrieval-Augmented Generation (RAG) experimentation, implementing document chunking, embedding pipelines, and vector similarity search. Containerized AI services using Docker and optimized deployment workflows across development and production environments."
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-1",
+      "degree": "Bachelor of Science in Artificial Intelligence",
+      "institution": "Bahria University",
+      "period": "2021 - June 2025",
+      "gpa": "3.65/4.0"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-1",
+      "title": "Deep Learning Specialization",
+      "issuer": "Udemy",
+      "date": "2024",
+      "description": "Neural Networks and Deep Learning"
+    },
+    {
+      "id": "cert-2",
+      "title": "Elements of AI",
+      "issuer": "University of Helsinki & Reaktor",
+      "date": "2024",
+      "description": "Introduction to AI concepts, machine learning, and neural networks",
+      "image": "/assets/images/ElementsofAI-Certificate.png"
+    }
+  ]
+}

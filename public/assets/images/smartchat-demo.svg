@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0b10"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f6d59b"/>
+      <stop offset="0.5" stop-color="#e2b16a"/>
+      <stop offset="1" stop-color="#c28b38"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.8" cy="0.15" r="0.9">
+      <stop offset="0" stop-color="#e2b16a" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#e2b16a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <rect width="1200" height="750" fill="url(#glow)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.03">
+    <path d="M0 125H1200M0 250H1200M0 375H1200M0 500H1200M0 625H1200"/>
+    <path d="M100 0V750M200 0V750M300 0V750M400 0V750M500 0V750M600 0V750M700 0V750M800 0V750M900 0V750M1000 0V750M1100 0V750"/>
+  </g>
+
+  <!-- window chrome -->
+  <rect x="60" y="60" width="1080" height="630" rx="18" fill="#0d0d12" stroke="#ffffff" stroke-opacity="0.09"/>
+  <rect x="60" y="60" width="1080" height="52" rx="18" fill="#101016" stroke="#ffffff" stroke-opacity="0.06"/>
+  <circle cx="92" cy="86" r="6" fill="#e2b16a" fill-opacity="0.85"/>
+  <circle cx="114" cy="86" r="6" fill="#ffffff" fill-opacity="0.18"/>
+  <circle cx="136" cy="86" r="6" fill="#ffffff" fill-opacity="0.18"/>
+  <text x="620" y="93" font-family="monospace" font-size="16" fill="#9a9a9a" text-anchor="middle">smartchat-ai // conversation</text>
+
+  <!-- chat bubbles -->
+  <rect x="100" y="150" width="480" height="92" rx="14" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="124" y="188" font-family="Arial, sans-serif" font-size="18" fill="#cccccc">Explain transformer attention</text>
+  <text x="124" y="216" font-family="Arial, sans-serif" font-size="18" fill="#cccccc">like I'm a curious engineer.</text>
+
+  <rect x="620" y="270" width="480" height="132" rx="14" fill="#e2b16a" fill-opacity="0.08" stroke="#e2b16a" stroke-opacity="0.25"/>
+  <text x="644" y="308" font-family="Arial, sans-serif" font-size="18" fill="#f6d59b">Attention weighs every token</text>
+  <text x="644" y="336" font-family="Arial, sans-serif" font-size="18" fill="#f6d59b">against every other token —</text>
+  <text x="644" y="364" font-family="Arial, sans-serif" font-size="18" fill="#f6d59b">that's how context becomes</text>
+  <text x="644" y="392" font-family="Arial, sans-serif" font-size="18" fill="#f6d59b">understanding.</text>
+
+  <rect x="100" y="430" width="380" height="60" rx="14" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="124" y="468" font-family="Arial, sans-serif" font-size="18" fill="#cccccc">Now show me the math.</text>
+
+  <rect x="620" y="518" width="480" height="92" rx="14" fill="#e2b16a" fill-opacity="0.08" stroke="#e2b16a" stroke-opacity="0.25"/>
+  <text x="644" y="556" font-family="monospace" font-size="17" fill="#f6d59b">softmax(QKᵀ / √dₖ) · V</text>
+  <text x="644" y="588" font-family="Arial, sans-serif" font-size="16" fill="#9a9a9a">— Llama 3.2 7B, fine-tuned</text>
+
+  <!-- input bar -->
+  <rect x="100" y="632" width="880" height="40" rx="12" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="124" y="658" font-family="monospace" font-size="15" fill="#666666">Message SmartChat…</text>
+  <rect x="996" y="632" width="104" height="40" rx="12" fill="url(#gold)"/>
+  <text x="1048" y="658" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#070709" text-anchor="middle">SEND</text>
+</svg>
