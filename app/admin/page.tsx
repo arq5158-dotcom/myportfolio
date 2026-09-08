@@ -124,6 +124,16 @@ export default function AdminPage() {
     const savedPassword = localStorage.getItem('admin_auth_pwd') || 'admin123';
 
     try {
+      // 1. Sync to local storage for instant browser persistence
+      localStorage.setItem('abdulrehman_portfolio_content', JSON.stringify(content));
+
+      // 2. Broadcast to open portfolio tabs in real-time
+      try {
+        const channel = new BroadcastChannel('portfolio_cms_channel');
+        channel.postMessage({ type: 'CONTENT_UPDATED', content });
+        channel.close();
+      } catch (e) {}
+
       const res = await fetch('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -198,13 +208,20 @@ export default function AdminPage() {
 
   const updateSectionVisibility = (key: keyof SectionVisibility, value: boolean) => {
     if (!content) return;
-    setContent({
+    const updated = {
       ...content,
       sectionVisibility: {
         ...(content.sectionVisibility ?? {}),
         [key]: value,
       },
-    });
+    };
+    setContent(updated);
+    localStorage.setItem('abdulrehman_portfolio_content', JSON.stringify(updated));
+    try {
+      const channel = new BroadcastChannel('portfolio_cms_channel');
+      channel.postMessage({ type: 'CONTENT_UPDATED', content: updated });
+      channel.close();
+    } catch (e) {}
   };
 
   const updateSocialLink = (network: keyof PortfolioContent['hero']['socialLinks'], url: string) => {

@@ -3,19 +3,26 @@
 import { useRef, useState } from 'react';
 import { motion, useMotionValueEvent, useScroll, useSpring } from 'framer-motion';
 import { scrollTo } from './Experience';
+import { SectionVisibility } from '@/types';
 
-const LINKS = [
-  ['Index', '#index'],
-  ['Work', '#work'],
-  ['Dossier', '#dossier'],
-  ['Signal', '#signal'],
-];
-
-export default function Nav({ name }: { name: string }) {
+export default function Nav({
+  name,
+  visibility,
+}: {
+  name: string;
+  visibility?: SectionVisibility;
+}) {
   const { scrollY, scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
   const [hidden, setHidden] = useState(false);
   const last = useRef(0);
+
+  const links = [
+    { label: 'Index', href: '#index', show: true },
+    { label: 'Work', href: '#work', show: visibility ? visibility.projects : true },
+    { label: 'Dossier', href: '#dossier', show: visibility ? (visibility.journey || visibility.certifications) : true },
+    { label: 'Signal', href: '#signal', show: visibility ? (visibility.contact || visibility.footer) : true },
+  ].filter((item) => item.show);
 
   // step out of the way going down, come back on the way up
   useMotionValueEvent(scrollY, 'change', (y) => {
@@ -45,13 +52,13 @@ export default function Nav({ name }: { name: string }) {
             {name}
           </button>
           <nav className="flex w-full items-center justify-between gap-[clamp(0.9rem,2.4vw,2.4rem)] sm:w-auto sm:justify-end">
-            {LINKS.map(([label, href]) => (
+            {links.map((link) => (
               <button
-                key={href}
-                onClick={() => scrollTo(href)}
+                key={link.href}
+                onClick={() => scrollTo(link.href)}
                 className="t-mono wipe text-white"
               >
-                {label}
+                {link.label}
               </button>
             ))}
           </nav>

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getPortfolioContent, savePortfolioContent, verifyAdminPassword } from '@/lib/contentStore';
 import { PortfolioContent } from '@/types';
 
@@ -42,6 +43,12 @@ export async function POST(request: Request) {
 
     const saved = savePortfolioContent(content as PortfolioContent);
     if (saved) {
+      try {
+        revalidatePath('/', 'layout');
+        revalidatePath('/admin', 'page');
+      } catch (err) {
+        console.warn('revalidatePath notice:', err);
+      }
       return NextResponse.json(
         { success: true, message: 'Portfolio content updated and saved successfully' },
         { status: 200 }
