@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { HeroContent, Project } from '@/types';
+import { scanReveals } from './Experience';
 
 /** One word of the manifesto, lit as the section scrolls past. */
 function Word({
@@ -25,7 +26,7 @@ function Word({
 /** "100+", "85.9%", "3.65" — animate the numeric core, keep whatever wraps it. */
 function Counter({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-15% 0px' });
+  const inView = useInView(ref, { once: true, margin: '0px 0px -5% 0px' });
   const [n, setN] = useState(0);
 
   const m = value.match(/^(\D*)([\d.]+)(.*)$/);
@@ -76,6 +77,10 @@ export default function Manifesto({
 
   const words = (hero.bio || '').split(/\s+/).filter(Boolean);
   const metrics = showMetrics ? hero.impactMetrics ?? [] : [];
+
+  useEffect(() => {
+    scanReveals();
+  }, [metrics.length]);
 
   const stack = Array.from(new Set(projects.flatMap((p) => p.techStack)));
   const domains = Array.from(

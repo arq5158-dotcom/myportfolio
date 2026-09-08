@@ -1,6 +1,6 @@
 {
   "sectionVisibility": {
-    "impactMetrics": false,
+    "impactMetrics": true,
     "projects": true,
     "journey": true,
     "certifications": true,
