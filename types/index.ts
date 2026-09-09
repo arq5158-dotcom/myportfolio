@@ -49,6 +49,8 @@ export interface SocialLinks {
   linkedin: string;
   email: string;
   twitter?: string;
+  phone?: string;
+  phone2?: string;
 }
 
 export interface HeroContent {

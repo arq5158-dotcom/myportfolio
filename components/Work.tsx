@@ -115,16 +115,28 @@ function Case({ project, onClose }: { project: Project; onClose: () => void }) {
                 </span>
               ))}
             </div>
-            {project.githubLink && (
-              <a
-                href={project.githubLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="t-mono wipe mt-8 inline-block text-[var(--volt)]"
-              >
-                View repository ↗
-              </a>
-            )}
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="t-mono wipe inline-block text-[var(--volt)] font-semibold"
+                >
+                  Launch live demo ↗
+                </a>
+              )}
+              {project.githubLink && (
+                <a
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="t-mono wipe inline-block text-[var(--fg)] transition-colors hover:text-[var(--volt)]"
+                >
+                  View repository ↗
+                </a>
+              )}
+            </div>
           </div>
         </div>
 

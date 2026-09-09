@@ -1,22 +1,22 @@
 {
   "sectionVisibility": {
-    "impactMetrics": false,
-    "projects": false,
+    "impactMetrics": true,
+    "projects": true,
     "journey": true,
     "certifications": true,
     "contact": true,
     "footer": true
   },
   "hero": {
-    "name": "ABDUL REHMAN",
-    "title": "AI Engineer",
-    "tagline": "Architecting High-Performance Intelligence & Scalable AI Infrastructure",
-    "bio": "AI Engineer with specialized expertise in Large Language Models, Production RAG Pipelines, Autonomous Systems, and Deep Learning Architectures. Experienced in optimizing inference latency, fine-tuning state-of-the-art models, and delivering mission-critical AI applications.",
+    "name": "Abdul Rehman Qureshi",
+    "title": "AI Engineer | AI Automation & LLM Systems",
+    "tagline": "Architecting Autonomous AI Agents, Agentic Workflows & Multilingual LLM Systems",
+    "bio": "AI Engineer who builds automation that takes manual work out of business processes. Designed and delivered a fully automated multilingual email agent for an electrical distributor in the GCC, carrying customer enquiries from first contact through to a priced quotation and a live payment link with no human in the loop. Also experienced in retrieval-augmented generation and applied deep learning.",
     "status": "",
-    "location": "Islamabad, Pakistan // Global Remote",
+    "location": "Lahore, Pakistan",
     "aboutTitle": "ABOUT",
-    "aboutSubtitle": "",
-    "aboutText": "Decoding complexity. Building intelligent systems at the intersection of AI, research, and impact.",
+    "aboutSubtitle": "AI Systems Engineering",
+    "aboutText": "Building autonomous systems that solve real operational bottlenecks. Specializing in multi-agent workflows, multilingual document intelligence, and production-grade LLM architectures.",
     "aboutScopeTag": "RESEARCH_SCOPE #909090",
     "neuralPatternsTitle": "NEURAL PATTERNS",
     "neuralPatternsYear": "2024",
@@ -24,75 +24,122 @@
     "cogVisionYear": "2023",
     "cogVisionSubtitle": "micro-data",
     "specialtiesTags": [
-      "Deep Learning",
-      "CV",
-      "NLP",
-      "Robotics"
+      "AI Agents",
+      "Agentic Workflows",
+      "Workflow Automation",
+      "n8n",
+      "Retrieval-Augmented Generation (RAG)",
+      "Multilingual AI",
+      "FastAPI",
+      "LangChain",
+      "Docker",
+      "PyTorch",
+      "TensorFlow"
     ],
-    "awardsTitle": "AWARDS",
-    "awardsSubtitle": "Gold accents",
-    "awardItem": "Awwwards Site of the Year",
-    "awardBadge": "FWA",
+    "awardsTitle": "RECOGNITION",
+    "awardsSubtitle": "Industry & Academic",
+    "awardItem": "Artificial Intelligence Innofest 2024 Selection",
+    "awardBadge": "Innofest",
     "socialLinks": {
       "github": "https://github.com/crazy-scientistt",
-      "linkedin": "https://linkedin.com/in/abdulrehman-ai",
-      "email": "arq5158@gmail.com",
-      "twitter": "https://x.com/crazy_scientist"
+      "linkedin": "https://linkedin.com/in/abdulrehman-qureshi",
+      "email": "arq5020@gmail.com",
+      "twitter": "https://x.com/crazy_scientist",
+      "phone": "+92 315 4233431",
+      "phone2": ""
     },
     "impactMetrics": [
       {
         "id": "metric-1",
-        "value": "100+",
-        "label": "Languages Supported",
-        "description": "Multilingual models across global use cases."
+        "value": "100%",
+        "label": "Autonomous Quoting",
+        "description": "Zero human-in-the-loop quoting pipeline from email to paid order."
       },
       {
         "id": "metric-2",
         "value": "85.9%",
         "label": "Detection Accuracy",
-        "description": "Real-world performance across diverse datasets."
+        "description": "XceptionNet deepfake classifier across 53,400-frame benchmark."
       },
       {
         "id": "metric-3",
-        "value": "60%",
-        "label": "Training Time Reduction",
-        "description": "Optimized pipelines for faster iteration."
+        "value": "100+",
+        "label": "Languages Supported",
+        "description": "Arabic & multilingual document intelligence with native RTL."
       },
       {
         "id": "metric-4",
         "value": "3.65",
         "label": "Cumulative GPA",
-        "description": "Consistent academic excellence."
+        "description": "Dean's List for Academic Excellence, Bahria University."
       }
     ]
   },
   "projects": [
     {
+      "id": "electrific-agent",
+      "title": "Electrific – Autonomous Multilingual Email & Quotation Agent",
+      "description": "Architected and delivered an enterprise-grade autonomous email agent for an electrical distributor operating across Bahrain and Saudi Arabia. The system intercepts inbound customer enquiries via webhooks, performs Arabic & English conversational NLP with OCR document extraction, syncs live stock and dynamic multi-tier pricing from a PostgreSQL catalog, calculates local currency and tax rules (BHD/SAR), renders formal bilingual PDF/HTML quotations, and integrates Stripe and Moyasar payment gateways to convert enquiries directly into paid orders with zero human intervention.",
+      "techStack": [
+        "n8n",
+        "Python",
+        "LangChain",
+        "PostgreSQL",
+        "REST APIs",
+        "Webhooks",
+        "Stripe / Moyasar",
+        "Docker",
+        "Notion AI"
+      ],
+      "features": [
+        "Delivered a fully automated email agent that took over inbound customer product enquiries end to end across Bahrain and Saudi Arabia",
+        "Enabled the agent to answer in the customer's own language (Arabic & English) and return a formal priced quotation complete with product images, specifications and a live payment link",
+        "Kept every quotation accurate against live stock and pricing by syncing the client's PostgreSQL product catalog several times a day",
+        "Automated the collection and fallback enrichment of supporting product data so the agent could answer confidently on items with incomplete catalog records",
+        "Integrated payment gateways (Stripe & Moyasar) to generate secure, itemized checkout sessions automatically",
+        "Multi-modal input support parsing incoming RFQ emails, attachments, spreadsheets, and spec sheet images via OCR"
+      ],
+      "githubLink": "",
+      "liveLink": "",
+      "screenshots": [
+        "/assets/images/electrific-architecture.png",
+        "/assets/images/electrific-n8n-workflow.png",
+        "/assets/images/electrific-quotation-delivery.png",
+        "/assets/images/electrific-flow.png"
+      ],
+      "thumbnail": "/assets/images/electrific-architecture.png",
+      "tags": [
+        "AI Agents",
+        "Agentic Workflows",
+        "n8n",
+        "Multilingual AI",
+        "PostgreSQL"
+      ]
+    },
+    {
       "id": "nexusrag",
-      "title": "Multilingual NexusRAG - Real-Time Document Intelligence Supporting 100+ Languages",
-      "description": "Architected and deployed production-grade Retrieval-Augmented Generation (RAG) system with HuggingFace Inference Providers, serving users with real-time document intelligence and conversational AI capabilities. Built with advanced RAG pipeline featuring dual retrieval modes, confidence scoring, source transparency, and automatic document expiration for enhanced security.",
+      "title": "Multilingual NexusRAG – Document Intelligence Platform",
+      "description": "Built a production-grade Retrieval-Augmented Generation (RAG) platform that lets users interrogate their own documents conversationally in Arabic and other languages, including full native RTL rendering. Shipped as a working multi-user product with authentication, session persistence, and confidence scoring with source previews so users can verify exactly where each answer came from.",
       "techStack": [
         "Python",
         "FastAPI",
-        "HuggingFace",
         "LangChain",
-        "Firebase",
+        "Hugging Face",
+        "Vector Databases",
         "React",
-        "Vite",
-        "SQLite",
-        "Vector Databases"
+        "Firebase",
+        "SQLite"
       ],
       "features": [
-        "Production-grade RAG system supporting 100+ languages",
-        "Dual retrieval modes: strict document-only and hybrid querying",
-        "Confidence scoring with source transparency and chunk previews",
-        "Automatic document expiration for enhanced security",
-        "Firebase Authentication with SQLite session persistence",
-        "Multi-session management with message branching",
-        "Export functionality and comprehensive document panel",
-        "Scalable backend with automated cleanup mechanisms"
+        "Production-grade RAG system supporting conversational document interrogation in Arabic and 100+ languages with full native RTL rendering",
+        "Shipped as a working multi-user product with Firebase Authentication and SQLite session persistence",
+        "Dual retrieval modes: strict document-only verification and hybrid conversational querying",
+        "Confidence scoring with source transparency and chunk previews showing exact origin citations",
+        "Multi-session management with message branching, export functionality, and comprehensive document panel",
+        "Automated document expiration and background cleanup mechanisms for data privacy and security"
       ],
       "githubLink": "https://github.com/crazy-scientistt/nexusrag",
+      "liveLink": "https://ragv2.netlify.app/",
       "screenshots": [
         "/assets/images/nexusrag-landingpage.png",
         "/assets/images/nexusrag-features.png",
@@ -104,37 +151,35 @@
       "thumbnail": "/assets/images/nexusrag-landingpage.png",
       "tags": [
         "RAG",
-        "HuggingFace",
         "LangChain",
-        "FastAPI"
+        "FastAPI",
+        "Hugging Face",
+        "Vector DB"
       ]
     },
     {
       "id": "deepdeception",
-      "title": "DeepDeception - AI Deepfake Detection System",
-      "description": "Engineered production-ready deepfake detection system achieving 85.9% accuracy across 53,400+ video frames using XceptionNet architecture. Built scalable Django REST API supporting 100+ concurrent users with consistent high availability on cloud infrastructure.",
+      "title": "DeepDeception – Deepfake Detection System",
+      "description": "Trained an XceptionNet deepfake classifier to 85.9% accuracy across a 53,400-frame test set and put it behind a public web interface anyone can test. Selected for Artificial Intelligence Innofest 2024 and presented to industry evaluators.",
       "techStack": [
         "Python",
-        "XceptionNet",
         "TensorFlow",
-        "OpenCV",
+        "XceptionNet",
         "Django",
+        "OpenCV",
         "Railway",
-        "SQL",
-        "HTML/CSS",
-        "JavaScript"
+        "SQL"
       ],
       "features": [
-        "Deepfake detection with 85.9% accuracy across 53,400+ video frames",
-        "Advanced XceptionNet architecture for facial analysis",
-        "Scalable Django REST API supporting 100+ concurrent users",
-        "GPU acceleration on Google Colab P100 instances",
-        "60% reduction in training time through pipeline optimization",
-        "User-friendly web interface with drag-and-drop functionality",
-        "Detailed confidence scoring and comprehensive reporting",
-        "Cloud deployment on Railway platform with high availability"
+        "Trained an XceptionNet deepfake classifier achieving 85.9% accuracy across a 53,400-frame test set",
+        "Selected for Artificial Intelligence Innofest 2024 and presented to industry evaluators",
+        "Scalable Django REST API supporting 100+ concurrent user inference sessions",
+        "GPU acceleration on cloud instances achieving 60% reduction in training iteration time",
+        "User-friendly web interface with drag-and-drop video upload and real-time frame analysis",
+        "Detailed confidence scoring and comprehensive forensic inspection reports"
       ],
       "githubLink": "https://github.com/uwdhuwhduwg/deepfakeDetection",
+      "liveLink": "https://deepdeception.netlify.app/",
       "screenshots": [
         "/assets/images/landing page.png",
         "/assets/images/result page 1.png",
@@ -144,8 +189,9 @@
       ],
       "thumbnail": "/assets/images/landing page.png",
       "tags": [
-        "XceptionNet",
+        "Computer Vision",
         "TensorFlow",
+        "XceptionNet",
         "Django",
         "OpenCV"
       ]
@@ -187,7 +233,7 @@
     {
       "id": "unity-fps",
       "title": "Maze of Fury – Unity FPS with AI Enemies",
-      "description": "\"Maze of Fury\" stands as a testament to the intersection of advanced game design principles, captivating narrative elements, and cutting-edge artificial intelligence implementations within the Unity 3D environment. Drawing inspiration from the adrenaline-fueled action of the Maze Runner movie franchise, this project aims to immerse players in a heart-pounding first-person shooting experience set within a labyrinthine maze.",
+      "description": "First-person shooting experience set within a labyrinthine maze featuring navmesh-driven AI enemy behaviors, multi-level pathfinding, and dynamic health systems built in Unity 3D.",
       "techStack": [
         "Python",
         "Unity 3D",
@@ -198,13 +244,11 @@
       ],
       "features": [
         "Three distinct levels with varying degrees of complexity",
-        "Responsive and challenging enemy AI behavior",
+        "Responsive and challenging enemy AI behavior using NavMesh",
         "Fluid and responsive movement controls for precision navigation",
-        "Heart-pounding combat encounters with vampire enemies",
         "Dynamic health system requiring strategic decision-making",
-        "Strategic cookie collection objectives throughout the maze",
-        "Optimized performance for smooth gameplay",
-        "Immersive visuals and atmospheric effects"
+        "Strategic collection objectives throughout the maze",
+        "Optimized performance for smooth 60fps gameplay"
       ],
       "githubLink": "https://github.com/crazy-scientistt/maze-of-fury",
       "screenshots": [
@@ -226,7 +270,7 @@
     {
       "id": "self-driving",
       "title": "Self-Driving Car Simulation",
-      "description": "An autonomous vehicle simulation system built using CNN-based computer vision and behavioral cloning techniques. The simulator replicates what NVIDIA did in the simulation, allowing us to collect all our data from the simulator. The simulator has two modes: Training mode for data collection and Autonomous mode for testing the model.",
+      "description": "An autonomous vehicle simulation system built using CNN-based computer vision and behavioral cloning techniques. Replicates autonomous driving pipelines, predicting steering angle and speed control across diverse simulated tracks.",
       "techStack": [
         "Python",
         "Unity 3D",
@@ -242,9 +286,7 @@
         "Real-time steering angle prediction and speed control",
         "Integration with Unity-based Udacity simulator",
         "Two distinct tracks: Lake track and Jungle track",
-        "Training mode for data collection and autonomous mode for testing",
-        "Robust performance in various simulated road conditions",
-        "Comprehensive training pipeline with frame capture and analysis"
+        "Training mode for data collection and autonomous mode for testing"
       ],
       "githubLink": "https://github.com/crazy-scientistt/self-driving-car",
       "screenshots": [
@@ -263,44 +305,44 @@
   ],
   "experiences": [
     {
-      "id": "exp-1788730600332",
-      "title": "Ai Automation Engineer",
+      "id": "exp-electrific",
+      "title": "AI Automation Engineer (Freelance)",
       "company": "Electrific",
-      "period": "Dec 2025 - September 2026",
-      "description": "Designing and deploying intelligent automation systems across research and real-world applications."
+      "period": "Dec 2025 – Sep 2026",
+      "description": "Delivered a fully automated email agent taking over inbound customer product enquiries end to end across Bahrain and Saudi Arabia. Enabled customer-native Arabic & English replies with priced quotations, live stock sync, and payment links with zero human in the loop."
     },
     {
-      "id": "exp-1",
+      "id": "exp-buzzware",
       "title": "AI Software Development Intern",
       "company": "Buzzware Tech",
-      "period": "July 2024 - September 2024",
-      "description": "Worked on machine learning pipelines, data engineering, and model optimization."
+      "period": "Jul 2024 – Sep 2024",
+      "description": "Improved inference performance on the team's model serving stack, cutting model response times. Prototyped the team's first RAG workflow from document ingestion to vector search, and containerised deployments with Docker."
     }
   ],
   "education": [
     {
-      "id": "edu-1",
+      "id": "edu-bahria",
       "degree": "Bachelor of Science in Artificial Intelligence",
-      "institution": "Bahria University",
-      "period": "2021 - June 2025",
-      "gpa": "3.65/4.0"
+      "institution": "Bahria University, Islamabad, Pakistan",
+      "period": "2021 – Jun 2025",
+      "gpa": "3.65/4.0 (Dean's List for Academic Excellence)"
     }
   ],
   "certifications": [
     {
       "id": "cert-1",
-      "title": "Deep Learning Specialization",
-      "issuer": "Udemy",
-      "date": "2024",
-      "description": "Neural networks and deep learning."
-    },
-    {
-      "id": "cert-2",
       "title": "Elements of AI",
       "issuer": "University of Helsinki & Reaktor",
       "date": "2024",
-      "description": "Introduction to AI concepts and ethics.",
+      "description": "Core artificial intelligence concepts, search algorithms, and machine learning principles.",
       "image": "/assets/images/ElementsofAI-Certificate.png"
+    },
+    {
+      "id": "cert-2",
+      "title": "Deep Learning Specialization",
+      "issuer": "Udemy",
+      "date": "2024",
+      "description": "Deep neural networks, backpropagation, convolutional networks, and sequence models."
     }
   ]
 }

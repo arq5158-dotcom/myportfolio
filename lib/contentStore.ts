@@ -28,56 +28,70 @@ export function getSectionVisibility(content?: PortfolioContent | null): Section
 export const defaultPortfolioContent: PortfolioContent = {
   sectionVisibility: defaultSectionVisibility,
   hero: {
-    name: 'Abdul Rehman',
-    title: 'AI RESEARCHER',
-    tagline: 'Architecting High-Performance Intelligence & Scalable AI Infrastructure',
-    bio: 'Decoding complexity. Building intelligent systems at the intersection of AI, research, and impact.',
+    name: 'Abdul Rehman Qureshi',
+    title: 'AI Engineer | AI Automation & LLM Systems',
+    tagline: 'Architecting Autonomous AI Agents, Agentic Workflows & Multilingual LLM Systems',
+    bio: 'AI Engineer who builds automation that takes manual work out of business processes. Designed and delivered a fully automated multilingual email agent for an electrical distributor in the GCC, carrying customer enquiries from first contact through to a priced quotation and a live payment link with no human in the loop. Also experienced in retrieval-augmented generation and applied deep learning.',
     status: '',
-    location: 'Islamabad, Pakistan / Remote',
+    location: 'Lahore, Pakistan',
     aboutTitle: 'ABOUT',
-    aboutSubtitle: 'Titanium silver',
-    aboutText: 'Decoding complexity. Building intelligent systems at the intersection of AI, research, and impact.',
+    aboutSubtitle: 'AI Systems Engineering',
+    aboutText: 'Building autonomous systems that solve real operational bottlenecks. Specializing in multi-agent workflows, multilingual document intelligence, and production-grade LLM architectures.',
     aboutScopeTag: 'RESEARCH_SCOPE #909090',
     neuralPatternsTitle: 'NEURAL PATTERNS',
     neuralPatternsYear: '2024',
     cogVisionTitle: 'COG_VISION',
     cogVisionYear: '2023',
     cogVisionSubtitle: 'micro-data',
-    specialtiesTags: ['Deep Learning', 'CV', 'NLP', 'Robotics'],
-    awardsTitle: 'AWARDS',
-    awardsSubtitle: 'Gold accents',
-    awardItem: 'Awwwards Site of the Year',
-    awardBadge: 'FWA',
+    specialtiesTags: [
+      'AI Agents',
+      'Agentic Workflows',
+      'Workflow Automation',
+      'n8n',
+      'Retrieval-Augmented Generation (RAG)',
+      'Multilingual AI',
+      'FastAPI',
+      'LangChain',
+      'Docker',
+      'PyTorch',
+      'TensorFlow',
+    ],
+    awardsTitle: 'RECOGNITION',
+    awardsSubtitle: 'Industry & Academic',
+    awardItem: 'Artificial Intelligence Innofest 2024 Selection',
+    awardBadge: 'Innofest',
     socialLinks: {
       github: 'https://github.com/crazy-scientistt',
-      linkedin: 'https://linkedin.com/in/abdulrehman-ai',
-      email: 'abdulrehmanqureshi2002@gmail.com',
+      linkedin: 'https://linkedin.com/in/abdulrehman-qureshi',
+      email: 'arq5020@gmail.com',
       twitter: 'https://x.com/crazy_scientist',
+      phone: '+92 315 4233431',
+      phone2: '',
     },
     impactMetrics: [
       {
         id: 'metric-1',
-        value: '100+',
-        label: 'Languages Supported',
-        description: 'Multilingual NexusRAG document intelligence production deployment',
+        value: '100%',
+        label: 'Autonomous Quoting',
+        description: 'Zero human-in-the-loop quoting pipeline from email to paid order.',
       },
       {
         id: 'metric-2',
         value: '85.9%',
         label: 'Detection Accuracy',
-        description: 'Deepfake analysis benchmark across 53,400+ video frames',
+        description: 'XceptionNet deepfake classifier across 53,400-frame benchmark.',
       },
       {
         id: 'metric-3',
-        value: '60%',
-        label: 'Training Time Reduction',
-        description: 'Optimized neural pipeline via mixed-precision & Colab P100 acceleration',
+        value: '100+',
+        label: 'Languages Supported',
+        description: 'Arabic & multilingual document intelligence with native RTL.',
       },
       {
         id: 'metric-4',
         value: '3.65',
         label: 'Cumulative GPA',
-        description: 'BS in Artificial Intelligence from Bahria University',
+        description: 'Dean\'s List for Academic Excellence, Bahria University.',
       },
     ],
   },
@@ -111,10 +125,24 @@ export function getPortfolioContent(): PortfolioContent {
     return inMemoryContent;
   }
 
-  // Try checking temp directory fallback (writable in serverless environments like Vercel)
+  ensureDataDir();
   try {
     const tmpContentFile = path.join(os.tmpdir(), 'portfolio-content.json');
+    let useTmp = false;
+
     if (fs.existsSync(tmpContentFile)) {
+      if (!fs.existsSync(CONTENT_FILE)) {
+        useTmp = true;
+      } else {
+        const tmpTime = fs.statSync(tmpContentFile).mtimeMs;
+        const fileTime = fs.statSync(CONTENT_FILE).mtimeMs;
+        if (tmpTime > fileTime) {
+          useTmp = true;
+        }
+      }
+    }
+
+    if (useTmp) {
       const rawData = fs.readFileSync(tmpContentFile, 'utf-8');
       const parsed = JSON.parse(rawData);
       const contentFromTmp: PortfolioContent = {
@@ -126,10 +154,7 @@ export function getPortfolioContent(): PortfolioContent {
       inMemoryContent = contentFromTmp;
       return contentFromTmp;
     }
-  } catch (e) {}
 
-  ensureDataDir();
-  try {
     if (fs.existsSync(CONTENT_FILE)) {
       const rawData = fs.readFileSync(CONTENT_FILE, 'utf-8');
       const parsed = JSON.parse(rawData);

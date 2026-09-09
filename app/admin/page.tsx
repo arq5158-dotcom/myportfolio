@@ -686,6 +686,26 @@ export default function AdminPage() {
                         className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white focus:outline-none focus:border-primary font-mono"
                       />
                     </div>
+                    <div>
+                      <label className="text-xs font-mono text-slate-400 block mb-2 uppercase">Primary Phone / Contact</label>
+                      <input
+                        type="text"
+                        placeholder="+92 315 4233431"
+                        value={content.hero.socialLinks?.phone || ''}
+                        onChange={(e) => updateSocialLink('phone', e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white focus:outline-none focus:border-primary font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-mono text-slate-400 block mb-2 uppercase">Secondary Contact (Optional)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Alternate phone or WhatsApp"
+                        value={content.hero.socialLinks?.phone2 || ''}
+                        onChange={(e) => updateSocialLink('phone2', e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-white focus:outline-none focus:border-primary font-mono"
+                      />
+                    </div>
                   </div>
 
                   <div className="pt-4 border-t border-white/[0.06]">

@@ -13,9 +13,14 @@ export default function Signal({
   showFooter: boolean;
 }) {
   const s = hero.socialLinks ?? ({} as HeroContent['socialLinks']);
+  const cleanPhone1 = s?.phone ? s.phone.trim() : '';
+  const cleanPhone2 = s?.phone2 ? s.phone2.trim() : '';
+
   const links = [
-    s?.github && { label: 'GitHub', href: s.github },
+    cleanPhone1 && { label: cleanPhone1, href: `tel:${cleanPhone1.replace(/[^+\d]/g, '')}` },
+    cleanPhone2 && { label: cleanPhone2, href: `tel:${cleanPhone2.replace(/[^+\d]/g, '')}` },
     s?.linkedin && { label: 'LinkedIn', href: s.linkedin },
+    s?.github && { label: 'GitHub', href: s.github },
     s?.twitter && { label: 'X / Twitter', href: s.twitter },
     { label: 'Résumé (PDF)', href: '/assets/resume.pdf' },
   ].filter(Boolean) as { label: string; href: string }[];
@@ -70,6 +75,28 @@ export default function Signal({
             <p className="s-body max-w-[36ch] text-[var(--fg-dim)]">
               {hero.aboutText}
             </p>
+            {cleanPhone1 && (
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="t-mono t-label">Direct Line:</span>
+                <a
+                  href={`tel:${cleanPhone1.replace(/[^+\d]/g, '')}`}
+                  className="t-mono text-[var(--volt)] hover:underline"
+                >
+                  {cleanPhone1}
+                </a>
+                {cleanPhone2 && (
+                  <>
+                    <span className="t-label opacity-40">/</span>
+                    <a
+                      href={`tel:${cleanPhone2.replace(/[^+\d]/g, '')}`}
+                      className="t-mono text-[var(--volt)] hover:underline"
+                    >
+                      {cleanPhone2}
+                    </a>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           <ul className="md:col-span-6 md:col-start-7">
