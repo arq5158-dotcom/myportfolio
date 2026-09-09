@@ -43,6 +43,8 @@ export function ImageUploader({
       const formData = new FormData();
       formData.append('file', file);
       formData.append('password', passwordGetter());
+      const sessionToken = typeof window !== 'undefined' ? localStorage.getItem('admin_session_token') || '' : '';
+      formData.append('token', sessionToken);
 
       const res = await fetch('/api/upload', {
         method: 'POST',
@@ -255,6 +257,8 @@ export function GalleryUploader({
         const formData = new FormData();
         formData.append('file', file);
         formData.append('password', passwordGetter());
+        const sessionToken = typeof window !== 'undefined' ? localStorage.getItem('admin_session_token') || '' : '';
+        formData.append('token', sessionToken);
 
         const res = await fetch('/api/upload', {
           method: 'POST',
@@ -395,6 +399,8 @@ export function DocumentUploader({
       const formData = new FormData();
       formData.append('file', file);
       formData.append('password', passwordGetter());
+      const sessionToken = typeof window !== 'undefined' ? localStorage.getItem('admin_session_token') || '' : '';
+      formData.append('token', sessionToken);
       if (isResume) {
         formData.append('isResume', 'true');
       }

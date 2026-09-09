@@ -14,33 +14,23 @@ export default function PortfolioView({ initialContent }: { initialContent: Port
   const [content, setContent] = useState<PortfolioContent>(initialContent);
 
   useEffect(() => {
-    // 1. Check if this browser has local modifications
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('abdulrehman_portfolio_content');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          if (parsed && typeof parsed === 'object') {
-            setContent(parsed);
-          }
-        } catch (e) {}
-      }
+      // Clear any legacy poisoned localStorage key that caused sections to be locked as hidden
+      try {
+        localStorage.removeItem('abdulrehman_portfolio_content');
+      } catch (e) {}
 
-      // 2. Fetch fresh content from server
+      // Always fetch latest state from server to guarantee sync
       fetch('/api/content', { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
-          if (data.success && data.data) {
-            // Keep content updated from server if local storage isn't newer
-            setContent((prev) => {
-              const localSaved = localStorage.getItem('abdulrehman_portfolio_content');
-              return localSaved ? prev : data.data;
-            });
+          if (data?.success && data?.data) {
+            setContent(data.data);
           }
         })
         .catch(() => {});
 
-      // 3. Listen for live real-time updates from Admin UI
+      // Listen for real-time live preview messages from Admin UI
       let channel: BroadcastChannel | null = null;
       try {
         channel = new BroadcastChannel('portfolio_cms_channel');
@@ -51,19 +41,8 @@ export default function PortfolioView({ initialContent }: { initialContent: Port
         };
       } catch (e) {}
 
-      // 4. Also listen to storage events across tabs
-      const onStorage = (e: StorageEvent) => {
-        if (e.key === 'abdulrehman_portfolio_content' && e.newValue) {
-          try {
-            setContent(JSON.parse(e.newValue));
-          } catch (err) {}
-        }
-      };
-      window.addEventListener('storage', onStorage);
-
       return () => {
         channel?.close();
-        window.removeEventListener('storage', onStorage);
       };
     }
   }, []);
@@ -119,4 +98,3 @@ export default function PortfolioView({ initialContent }: { initialContent: Port
     </>
   );
 }
-

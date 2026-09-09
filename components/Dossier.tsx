@@ -47,20 +47,20 @@ export default function Dossier({
         </div>
         <div className="rule mt-4" />
 
-        <h2
-          data-reveal
-          className="t-display mt-[clamp(2rem,6vh,4rem)] text-[clamp(2.6rem,9vw,7.5rem)] leading-[0.85]"
-        >
-          <span className="rise">
-            <span>Track</span>
-          </span>
-          <span className="rise">
-            <span className="t-serif lowercase">record</span>
-          </span>
-        </h2>
-
         {showJourney && (
-          <div className="mt-[clamp(2.5rem,7vh,5rem)]">
+          <>
+            <h2
+              data-reveal
+              className="t-display mt-[clamp(2rem,6vh,4rem)] text-[clamp(2.6rem,9vw,7.5rem)] leading-[0.85]"
+            >
+              <span className="rise">
+                <span>Track</span>
+              </span>
+              <span className="rise">
+                <span className="t-serif lowercase">record</span>
+              </span>
+            </h2>
+            <div className="mt-[clamp(2.5rem,7vh,5rem)]">
             {rows.map((r, i) => (
               <div
                 key={i}
@@ -88,6 +88,7 @@ export default function Dossier({
             ))}
             <div className="rule" />
           </div>
+          </>
         )}
 
         {showCertifications && certifications.length > 0 && (

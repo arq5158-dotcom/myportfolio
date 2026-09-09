@@ -122,12 +122,10 @@ export default function AdminPage() {
     setSaveSuccess(false);
 
     const savedPassword = localStorage.getItem('admin_auth_pwd') || 'admin123';
+    const sessionToken = localStorage.getItem('admin_session_token') || '';
 
     try {
-      // 1. Sync to local storage for instant browser persistence
-      localStorage.setItem('abdulrehman_portfolio_content', JSON.stringify(content));
-
-      // 2. Broadcast to open portfolio tabs in real-time
+      // 1. Broadcast to open portfolio tabs in real-time
       try {
         const channel = new BroadcastChannel('portfolio_cms_channel');
         channel.postMessage({ type: 'CONTENT_UPDATED', content });
@@ -136,10 +134,14 @@ export default function AdminPage() {
 
       const res = await fetch('/api/content', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(sessionToken ? { 'Authorization': `Bearer ${sessionToken}` } : {}),
+        },
         body: JSON.stringify({
           content,
           password: savedPassword,
+          token: sessionToken,
         }),
       });
       const data = await res.json();
@@ -147,7 +149,7 @@ export default function AdminPage() {
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3500);
       } else {
-        alert(`Error saving changes: ${data.error || 'Check your admin password'}`);
+        alert(`Error saving changes: ${data.error || 'Check your admin credentials'}`);
       }
     } catch (err) {
       alert('Network error while saving changes.');
@@ -216,7 +218,6 @@ export default function AdminPage() {
       },
     };
     setContent(updated);
-    localStorage.setItem('abdulrehman_portfolio_content', JSON.stringify(updated));
     try {
       const channel = new BroadcastChannel('portfolio_cms_channel');
       channel.postMessage({ type: 'CONTENT_UPDATED', content: updated });
