@@ -40,8 +40,6 @@ export async function POST(request: Request) {
           isAuthorized = true;
         }
       } catch (e) {}
-    } else if (!password && verifyAdminPassword('admin123')) {
-      isAuthorized = true;
     }
 
     if (!isAuthorized) {

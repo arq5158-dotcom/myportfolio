@@ -66,8 +66,9 @@ export async function PUT(request: Request) {
 
     const success = setAdminPassword(newPassword.trim());
     if (success) {
+      const sessionToken = Buffer.from(`admin_auth_${Date.now()}`).toString('base64');
       return NextResponse.json(
-        { success: true, message: 'Password updated successfully' },
+        { success: true, message: 'Password updated successfully', token: sessionToken },
         { status: 200 }
       );
     } else {

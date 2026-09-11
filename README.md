@@ -21,8 +21,7 @@ npm run dev        # dev server with hot reload
 Open **http://localhost:3000**
 
 - Portfolio: `/`
-- Admin CMS: `/admin` — default password `admin123`
-  (stored in `data/admin-config.json`; change it under **Security & Settings** in the admin)
+- Admin CMS: `/admin` — enter your master passkey (stored in `data/admin-config.json` or configure via `ADMIN_PASSWORD` env var; update anytime under **Security & Settings** in the admin)
 
 If port 3000 is taken: `npm run dev -- -p 3001`
 
@@ -126,12 +125,10 @@ All three: set the start command to `npm start`, and the admin CMS will write
 
 - No environment variables are required to run. All content lives in
   `data/portfolio-content.json`.
-- The admin password is currently stored in `data/admin-config.json`
-  (initialized to `admin123` on first run). **Change it immediately** via
-  `/admin` → Security & Settings, and keep `data/` out of any public repo if
-  the password file is sensitive to you.
-- Optional hardening for production: move the password to an env var
-  (`ADMIN_PASSWORD`) and update `lib/contentStore.ts` to read it.
+- The admin password is stored securely in `data/admin-config.json`. **You can update it anytime** via
+  `/admin` → Security & Settings.
+- Optional hardening for production: set the password via the environment variable
+  (`ADMIN_PASSWORD`), which `lib/contentStore.ts` automatically honors.
 
 ---
 

@@ -24,6 +24,7 @@ import {
   FiSettings,
   FiRefreshCw,
   FiExternalLink,
+  FiUpload,
 } from 'react-icons/fi';
 import {
   ImageUploader,
@@ -57,7 +58,7 @@ export default function AdminPage() {
   const [showNextPw, setShowNextPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
 
-  const getAdminPassword = () => localStorage.getItem('admin_auth_pwd') || 'admin123';
+  const getAdminPassword = () => localStorage.getItem('admin_auth_pwd') || '';
 
   // Check existing session token on mount
   useEffect(() => {
@@ -71,13 +72,39 @@ export default function AdminPage() {
   const fetchContent = async () => {
     try {
       setLoading(true);
+      let localData: (PortfolioContent & { _updatedAt?: number }) | null = null;
+      try {
+        const stored = localStorage.getItem('portfolio_content_v2');
+        if (stored) {
+          localData = JSON.parse(stored);
+        }
+      } catch (e) {}
+
       const res = await fetch('/api/content', { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.data) {
-        setContent(data.data);
+        const serverTime = data.data._updatedAt || 0;
+        const localTime = localData?._updatedAt || 0;
+
+        if (localData && localTime > serverTime) {
+          setContent(localData);
+        } else {
+          setContent(data.data);
+          try {
+            localStorage.setItem('portfolio_content_v2', JSON.stringify(data.data));
+          } catch (e) {}
+        }
+      } else if (localData) {
+        setContent(localData);
       }
     } catch (err) {
-      console.error('Failed to load portfolio content:', err);
+      console.error('Failed to load portfolio content from server:', err);
+      try {
+        const stored = localStorage.getItem('portfolio_content_v2');
+        if (stored) {
+          setContent(JSON.parse(stored));
+        }
+      } catch (e) {}
     } finally {
       setLoading(false);
     }
@@ -121,14 +148,23 @@ export default function AdminPage() {
     setSaving(true);
     setSaveSuccess(false);
 
-    const savedPassword = localStorage.getItem('admin_auth_pwd') || 'admin123';
+    const savedPassword = localStorage.getItem('admin_auth_pwd') || '';
     const sessionToken = localStorage.getItem('admin_session_token') || '';
+    const stampedContent: PortfolioContent & { _updatedAt: number } = {
+      ...content,
+      _updatedAt: Date.now(),
+    };
 
     try {
-      // 1. Broadcast to open portfolio tabs in real-time
+      // 1. Save to localStorage immediately for instant local retention
+      try {
+        localStorage.setItem('portfolio_content_v2', JSON.stringify(stampedContent));
+      } catch (e) {}
+
+      // 2. Broadcast to open portfolio tabs in real-time
       try {
         const channel = new BroadcastChannel('portfolio_cms_channel');
-        channel.postMessage({ type: 'CONTENT_UPDATED', content });
+        channel.postMessage({ type: 'CONTENT_UPDATED', content: stampedContent });
         channel.close();
       } catch (e) {}
 
@@ -139,20 +175,21 @@ export default function AdminPage() {
           ...(sessionToken ? { 'Authorization': `Bearer ${sessionToken}` } : {}),
         },
         body: JSON.stringify({
-          content,
+          content: stampedContent,
           password: savedPassword,
           token: sessionToken,
         }),
       });
       const data = await res.json();
       if (data.success) {
+        setContent(stampedContent);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3500);
       } else {
         alert(`Error saving changes: ${data.error || 'Check your admin credentials'}`);
       }
     } catch (err) {
-      alert('Network error while saving changes.');
+      alert('Network error while saving changes to server, but changes are saved in local session.');
     } finally {
       setSaving(false);
     }
@@ -189,6 +226,9 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.success) {
         localStorage.setItem('admin_auth_pwd', pwChange.next.trim());
+        if (data.token) {
+          localStorage.setItem('admin_session_token', data.token);
+        }
         setPwMessage({ type: 'success', text: 'Master password updated successfully!' });
         setPwChange({ current: '', next: '', confirm: '' });
       } else {
@@ -367,6 +407,28 @@ export default function AdminPage() {
     URL.revokeObjectURL(url);
   };
 
+  // --- Import JSON Backup ---
+  const handleImportBackup = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target?.result as string);
+        if (parsed && typeof parsed === 'object' && parsed.hero) {
+          setContent(parsed);
+          alert('Backup loaded into editor! Click "Save Changes" in the top bar to save and persist to disk.');
+        } else {
+          alert('Invalid backup JSON format. Required fields are missing.');
+        }
+      } catch (err) {
+        alert('Could not parse JSON backup file.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
   // ----------------------------------------------------
   // Render: Login Gate
   // ----------------------------------------------------
@@ -396,7 +458,7 @@ export default function AdminPage() {
                   type={showLoginPw ? 'text' : 'password'}
                   required
                   autoFocus
-                  placeholder="Enter admin password (default: admin123)"
+                  placeholder="Enter admin password"
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                   className="w-full pl-4 pr-11 py-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary font-mono transition-colors"
@@ -1383,14 +1445,26 @@ export default function AdminPage() {
                     Data Export & Backup
                   </h3>
                   <p className="text-xs text-slate-400 font-mono">
-                    Download an immutable JSON snapshot of your complete portfolio content.
+                    Download an immutable JSON snapshot of your complete portfolio content or restore a previous JSON backup.
                   </p>
-                  <button
-                    onClick={exportBackup}
-                    className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs font-mono text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
-                  >
-                    Download Content JSON Backup
-                  </button>
+                  <div className="flex flex-wrap gap-3 pt-1">
+                    <button
+                      onClick={exportBackup}
+                      className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs font-mono text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+                    >
+                      Download Content JSON Backup
+                    </button>
+                    <label className="px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs font-mono text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer inline-flex items-center gap-2">
+                      <FiUpload className="w-3.5 h-3.5 text-primary" />
+                      <span>Restore Backup JSON</span>
+                      <input
+                        type="file"
+                        accept=".json"
+                        className="hidden"
+                        onChange={handleImportBackup}
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
             )}
